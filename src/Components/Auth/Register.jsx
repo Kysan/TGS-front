@@ -31,6 +31,7 @@ class Register extends Component {
     const user = await registerUser(this.state.data);
     if (!user) return;
     toast.dark("Account created!");
+    this.handleAccountCreationSuccess();
   };
 
   render() {
