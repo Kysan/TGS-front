@@ -6,10 +6,9 @@ import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import "reactjs-popup/dist/index.css";
 ReactDOM.render(
   <BrowserRouter>
-    <div className="w-screen h-screen bg-black text-white font-mono flex flex-col select-none">
+    <div className="w-screen h-screen p-4 bg-black text-white font-mono flex flex-col select-none">
       <ToastContainer
         position="top-center"
         autoClose={5000}
