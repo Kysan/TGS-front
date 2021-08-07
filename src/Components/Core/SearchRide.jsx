@@ -33,42 +33,61 @@ class SearchRide extends Component {
   render() {
     const { start, arrival } = this.state;
     return (
-      <div className="w-full h-full flex flex-col gap-5 p-x-16 overflow-auto">
-        <div className="flex flex-col">
-          <div>Start</div>
-          <div>
-            <span className="bg-white text-black p-1 rounded">
-              {start.adr ? start.adr : "Plase select a location"}
-            </span>
-            <LocationSearchPopup onLocationSelect={this.handleStartSelect} />
+      <div className="w-full h-full flex flex-row overflow-auto">
+        <div className="flex flex-col h-full w-1/2 gap-5 ml-4">
+          <div className="flex flex-col">
+            <div>Start</div>
+            <div className="flex flex-row mr-2">
+              <input
+                className="bg-white text-black p-1 rounded w-full"
+                value={start.adr}
+                placeholder="Please select a location"
+                // onChange={(e) =>
+                //   this.setState({
+                //     start: { ...start, adr: e.currentTarget.value },
+                //   })
+                // }
+              />
+              <LocationSearchPopup onLocationSelect={this.handleStartSelect} />
+            </div>
+          </div>
+          <div className="flex flex-col">
+            <div>Arrival</div>
+            <div className="flex flex-row mr-2">
+              <input
+                className="bg-white text-black p-1 rounded w-full"
+                value={arrival.adr}
+                placeholder="Please select a location"
+                // onChange={(e) =>
+                //   this.setState({
+                //     arrival: { ...arrival, adr: e.currentTarget.value },
+                //   })
+                // }
+              />
+
+              <LocationSearchPopup
+                onLocationSelect={this.handleArrivalSelect}
+              />
+            </div>
+          </div>
+          <div className="flex flex-col w-max">
+            {this.state.arrival.adr && this.state.start.adr && (
+              <DirectionPopup
+                origin={this.state.start.adr}
+                destination={this.state.arrival.adr}
+              />
+            )}
+          </div>
+          <div className="flex flex-col w-min h-max">
+            <button
+              className="bg-green-600 rounded px-2"
+              onClick={this.handleRideSearch}
+            >
+              Search
+            </button>
           </div>
         </div>
-        <div className="flex flex-col">
-          <div>Arrival</div>
-          <div>
-            <span className="bg-white text-black p-1 rounded">
-              {arrival.adr ? arrival.adr : "Plase select a location"}
-            </span>
-            <LocationSearchPopup onLocationSelect={this.handleArrivalSelect} />
-          </div>
-        </div>
-        <div>
-          {this.state.arrival.adr && this.state.start.adr && (
-            <DirectionPopup
-              origin={this.state.start.adr}
-              destination={this.state.arrival.adr}
-            />
-          )}
-        </div>
-        <div>
-          <button
-            className="bg-green-600 rounded px-2"
-            onClick={this.handleRideSearch}
-          >
-            Search
-          </button>
-        </div>
-        <div className="flex flex-col mx-auto w-full h-full items-center justify-center text-black flex overflow-scroll">
+        <div className="flex flex-col w-1/2 h-full text-black flex overflow-x-hidden">
           {this.state.rides
             .sort((a, b) => a.price - b.price)
             .map(({ name, type, price, arrivalTime }, key) => {
@@ -86,7 +105,7 @@ class SearchRide extends Component {
 }
 
 const RideOffer = ({ name, type, price, arrivalTime }) => (
-  <div class="border-gray-400 flex flex-row mb-2" style={{ width: 512 }}>
+  <div class="border-gray-400 flex flex-row mb-2 w-full h-32 ml-16">
     <div class="select-none cursor-pointer bg-gray-200 rounded-md flex flex-row items-center p-4">
       <div class="flex flex-col rounded-md w-10 h-10 bg-gray-300 justify-center items-center mr-4">
         {type.substr(0, 3)}
