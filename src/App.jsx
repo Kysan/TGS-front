@@ -46,7 +46,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <NavBar username={username} />
-        <main className="w-full h-full mt-2 rounded bg-gray-700 overflow-hidden p-1 flex flex-col">
+        <main className="w-full h-full mt-2 rounded bg-gray-700 overflow-auto p-1 flex flex-col">
           <Switch>
             <Route
               path={"/search"}

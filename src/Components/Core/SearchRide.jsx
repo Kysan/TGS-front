@@ -33,7 +33,7 @@ class SearchRide extends Component {
   render() {
     const { start, arrival } = this.state;
     return (
-      <div className="w-full h-full flex flex-col gap-5 p-x-16">
+      <div className="w-full h-full flex flex-col gap-5 p-x-16 overflow-auto">
         <div className="flex flex-col">
           <div>Start</div>
           <div>
@@ -68,14 +68,38 @@ class SearchRide extends Component {
             Search
           </button>
         </div>
-        <div className="flex flex-col space-y-4">
-          {this.state.rides.map((r, key) => (
-            <div key={key}>{JSON.stringify(r)}</div>
-          ))}
+        <div className="flex flex-col mx-auto w-full h-full items-center justify-center text-black flex overflow-scroll">
+          {this.state.rides
+            .sort((a, b) => a.price - b.price)
+            .map(({ name, type, price, arrivalTime }, key) => {
+              const data = { name, type, price, arrivalTime };
+              return (
+                <div key={key}>
+                  <RideOffer {...data} />
+                </div>
+              );
+            })}
         </div>
       </div>
     );
   }
 }
+
+const RideOffer = ({ name, type, price, arrivalTime }) => (
+  <div class="border-gray-400 flex flex-row mb-2" style={{ width: 512 }}>
+    <div class="select-none cursor-pointer bg-gray-200 rounded-md flex flex-row items-center p-4">
+      <div class="flex flex-col rounded-md w-10 h-10 bg-gray-300 justify-center items-center mr-4">
+        {type.substr(0, 3)}
+      </div>
+      <div class="flex-1 pl-1 mr-16">
+        <div class="font-medium">{name}</div>
+        <div class="text-gray-600 text-sm">{price} €</div>
+      </div>
+      <div class="text-gray-600 text-xs">
+        {Math.floor(arrivalTime / 60)} min
+      </div>
+    </div>
+  </div>
+);
 
 export default SearchRide;
