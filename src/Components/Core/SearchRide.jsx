@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { searchRide } from "../../Services/rideService";
+import DirectionPopup from "./DirectionPopup";
 import LocationSearchPopup from "./SearchPopup";
 
 class SearchRide extends Component {
   state = {
-    start: { lat: 0, long: 0, adr: "please select..." },
-    arrival: { lat: 0, long: 0, adr: "please select..." },
+    start: { lat: 0, long: 0, adr: "" },
+    arrival: { lat: 0, long: 0, adr: "" },
     rides: [],
   };
 
@@ -36,7 +37,9 @@ class SearchRide extends Component {
         <div className="flex flex-col">
           <div>Start</div>
           <div>
-            <span className="bg-white text-black p-1 rounded">{start.adr}</span>
+            <span className="bg-white text-black p-1 rounded">
+              {start.adr ? start.adr : "Plase select a location"}
+            </span>
             <LocationSearchPopup onLocationSelect={this.handleStartSelect} />
           </div>
         </div>
@@ -44,13 +47,26 @@ class SearchRide extends Component {
           <div>Arrival</div>
           <div>
             <span className="bg-white text-black p-1 rounded">
-              {arrival.adr}
+              {arrival.adr ? arrival.adr : "Plase select a location"}
             </span>
             <LocationSearchPopup onLocationSelect={this.handleArrivalSelect} />
           </div>
         </div>
         <div>
-          <button onClick={this.handleRideSearch}>Search</button>
+          {this.state.arrival.adr && this.state.start.adr && (
+            <DirectionPopup
+              origin={this.state.start.adr}
+              destination={this.state.arrival.adr}
+            />
+          )}
+        </div>
+        <div>
+          <button
+            className="bg-green-600 rounded px-2"
+            onClick={this.handleRideSearch}
+          >
+            Search
+          </button>
         </div>
         <div className="flex flex-col space-y-4">
           {this.state.rides.map((r, key) => (
